@@ -1,8 +1,14 @@
 import re
 import collections
-
+import os
 
 def count_words(path):
+    # Get the directory of the current script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Create full path to the file
+    path = os.path.join(script_dir, path)
+    
     with open(path, 'r', encoding='utf-8') as file:
         all_words = re.findall(r"[0-9a-zA-Z-']+", file.read())
         all_words = [word.upper() for word in all_words]
