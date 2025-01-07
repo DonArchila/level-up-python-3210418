@@ -15,16 +15,15 @@ def roll_dice(*args, rolls=1_000_000):
     print("Number of sides on each dice:", sides)
     print("Probability of each outcome:")
 
-    # Generate random numbers
-    random_numbers = np.random.randint(1, sides+1, (rolls, n))
-    outcomes = np.sum(random_numbers, axis=1)
-    unique_outcomes, counts = np.unique(outcomes, return_counts=True)
-    prob_outcomes = counts/rolls
+    # roll each dice rolls times and count the number of times each outcome occurs
+    outcomes = np.zeros(total_sides - n + 1)
+    for _ in range(rolls):
+        outcome = np.sum([np.random.randint(1, sides[i] + 1) for i in range(n)])
+        outcomes[outcome - n] += 1
 
-    print("OUTCOME\tPROBABILITY")
-    for i in range(len(unique_outcomes)):
-        print(f"{unique_outcomes[i]}\t{prob_outcomes[i]:0.2f}%")
-    return
+    # print the probability of each outcome
+    for i, outcome in enumerate(outcomes):
+        print(f"{i + n}: {outcome/rolls:.2%}")
 
 if __name__ == "__main__":
     roll_dice(4, 6, 8)
